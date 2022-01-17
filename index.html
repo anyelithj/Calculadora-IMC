@@ -15,15 +15,15 @@
             <h3 class="title">CALCULADORA IMC</h3>
           </div>
           <div class="body__form">
-            <p class="sub__title">Descubre su indice de masa corporal</p>
+            <p class="lyrics">Descubre su indice de masa corporal</p>
             <div class="row">
-              <label for="gender">Genero</label>
+              <label for="gender" class="label">Genero</label>
               <input type="text" class="text-input input" id="gender" autocomplete="off" required/>
-              <label for="age">Edad</label>
+              <label for="age" class="label">Edad</label>
               <input type="text" class="text-input input" id="age" autocomplete="off" required/>
-              <label for="height">Altura</label>
-              <input type="text" class="text-input input" id="height" autocomplete="off" required> 
-              <label for="weight">Peso</label>
+              <label for="height" class="label">Altura</label>
+              <input type="text" class="text-input input" id="height" autocomplete="off" required>
+              <label for="weight" class="label">Peso</label>
               <input type="text" class="text-input input" id="weight" autocomplete="off" required>
             </div>
             <button type="button" id="submit" class="button">Calcular</button>
@@ -32,15 +32,15 @@
       </section>
       <section class="content__graph">
         <div>
-          <h2 id="result">Resultado: <span ></span></h2>
-          <p id="imc">IMC: <span ></span></p>
-        </div> 
-        <div>
-          <h2>Grafica</h2>
+          <h2 class="sub__title">Grafica</h2>
           <!-- <canvas id="myChart" style="width:100%;max-width:600px"></canvas> -->
-          <div id="myChart" style="width:100%; max-width:600px; height:500px;"></div>
-          <p>peso ideal: <span></span></p>
+          <canvas id="myChart" style="width:100%;max-width:400px; height: 200px;"></canvas>
+          <p>peso ideal: <span class="lyrics"></span></p>
         </div>
+        <div>
+          <h2 class="sub__title">Resultado:<span id="result" class="result"></span></h2>
+          <p class="sub__title">IMC:<span id="imc" class="result"></span></p>
+        </div> 
       </section>
       <section class="container__table">
         <div>
@@ -61,9 +61,11 @@
         </div>
       </section>
     </div>
-  <script src="script/app.js"></script>
-  <script src="data/data.json"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="script/graph.js"></script>
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+    <script src="script/app.js" type="module"></script>
 </body>
 </html>
