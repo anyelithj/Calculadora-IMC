@@ -10,8 +10,7 @@
     height: 100vh;
     font-size: 12pt ;
     font-family: 'Spartan';
-    color: #5452d4;
-   
+    
 } 
 .container__form {
                   grid-area: form; 
@@ -19,7 +18,7 @@
                 }
 .content__graph { 
                 grid-area: graph; 
-                width: auto;
+                width: 60%;
                 margin-bottom: 5%;
             }
 .container__table {grid-area: tabl;}
@@ -53,7 +52,6 @@ th {
 }
 .main__form {
     width: 80%;
-    margin: 5% 2% ;
     border-radius: 10px;
     border: 2px solid #5452d4;
     background: #f8f4e5;
@@ -75,25 +73,35 @@ th {
     margin: 5%;
     display: block;
     width: 80%;
-    font-size: 12pt;
+    font-size: 14pt;
     font-family: 'Spartan';
+}
+.label {
+    color: #532dac;
+    font-weight: bold;
 }
 .input {
     margin-bottom: 14pt;
 }
 .input {
     border: none;
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 2px;
+    border: 1px solid #5452d4;
+    border-radius: 3px;
     background: #f8f4e5;
     padding-left: 5px;
     outline: none;
 }
-.sub__title {
-    color: rgb(117, 114, 114);
+.input:hover {
+    background-color: hsl(241, 60, 38);
+}
+.lyrics, .result {
+    color: #5e5850;
     text-align: center;
     font-size: 14pt;
     padding-bottom: 5%;
+}
+.result {
+    text-align: left;
 }
 
 .button {
@@ -110,16 +118,24 @@ th {
     border-bottom: 2px solid transparent;
     margin: 5%;
 }
+.error {
+    background-color: #e4534c;
+    text-align: center;
+    padding: 1%;
+    color: white;
+    font-size: 10pt;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 .sub__title {
-    font-weight: normal;
-    font-size: 12pt;
+    font-weight:bold;
+    font-size: 18pt;
     line-height: 14pt;
     margin: 0 0 .5em 0;
     color: #532dac;
-    text-align: center;
+    text-align:left;
+    padding-top: 2%;
 }
-
-
 
   
  
