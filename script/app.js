@@ -94,7 +94,7 @@ let showData = () => {
 
 let showTable = ( persons) => {
     tableBody.innerHTML = "";
-    persons.forEach( item => {
+    persons.forEach(item => {
         const {age, height, weight, gender, resulImc,result } = item;
         let row = document.createElement('tr');
         tableBody.appendChild(row)
