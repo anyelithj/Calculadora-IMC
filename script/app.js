@@ -7,7 +7,7 @@ let gender = document.getElementById("gender");
 let tableBody = document.querySelector(".table__body");
 let button = document.getElementById("submit");
 let fragment = document.createDocumentFragment();
-// let persons = [];
+
 let result = "";
 let resulImc = "";
 let resultObs = "";
