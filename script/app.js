@@ -6,13 +6,12 @@ let weight = document.getElementById("weight");
 let gender = document.getElementById("gender");
 let tableBody = document.querySelector(".table__body");
 let button = document.getElementById("submit");
-// let form = document.getElementById("form");
 let fragment = document.createDocumentFragment();
 // let persons = [];
 let result = "";
 let resulImc = "";
 let resultObs = "";
-//let person = {};
+
 
 
 
@@ -21,7 +20,6 @@ button.addEventListener("click", validadeForm);
 function validadeForm(e){ 
     if(age.value == '' || height.value == '' || weight.value == ''){
         showMessage("Todos los campos son Obligatorios!");
-        // button.removeEventListener("click", calculateIMC);
     } else{
         calculateIMC();
     }
@@ -47,35 +45,34 @@ let addPerson = ( age, gender,  height,  resulImc, resultObs, weight) => {
                  weight : weight,
                 }
     
+    console.log(person)
    persons.push(person);
    saveData(persons); 
 } 
-
+console.log(persons)
 let calculateIMC = (item) => {
-    let imc = Number(weight.value ) / ( Number(height.value )/100 * Number(height.value)/100 );
-			
+
+	let imc = Number(weight.value ) /  Number(Math.pow(height.value,2));
+
     if(imc < 18.5){
         result = "delgadez";
-    } else if(18.5 <= imc && imc <= 24.9){
+    }else if(imc >= 18.5 && imc <= 24.9){
         result = "normal";
-    } else if(25.9 <= imc && imc <= 29.9) {
+    }else if(imc >= 25.0  && imc <= 29.9) {
         result = "sobrepeso";
-    } else if(30.0 <= imc && imc <= 39.9) {
+    }else if(imc >= 30.0   && imc <= 39.9) {
         result = "obesidad";
-    } else if(40.0 <= imc) {
+    } else if(imc >=  40.0 ) {
         result = "obesidad extrema o de alto riesgo";
+    } else {
+        result = "Ingrese los datos";
     }
-     resulImc = parseFloat(imc).toFixed(2) + "kg/m²";
-
      resultObs = document.createElement('h1');
      resultObs.textContent = result;
      resulImc = document.createElement('h2');
-     resulImc.textContent = parseFloat(imc).toFixed(2) + "kg/m²";  
-     console.log(resultObs , resulImc);
+     resulImc.textContent = parseFloat(imc).toFixed(2);  
      document.getElementById("result").appendChild(resultObs);
-     document.getElementById("imc").appendChild(resulImc);
-    //  button.removeEventListener("click", calculateIMC);
-    //  button.removeEventListener("click", validadeForm); 
+     document.getElementById("imc").appendChild(resulImc); 
      addPerson(age.value, gender.value, height.value, resulImc.textContent, resultObs.textContent, weight.value);
      form.reset();
      setTimeout( () => {
@@ -84,8 +81,6 @@ let calculateIMC = (item) => {
     }, 1500);   
 }
 
-
-// button.addEventListener("click",calculateIMC);
 
 let saveData = (persons) => {
     localStorage.setItem('person', JSON.stringify(persons));
@@ -115,77 +110,62 @@ let showTable = ( persons) => {
     fragment.appendChild(cloneRow);
     }); 
 }
-// button.addEventListener('click',showData);
+
 document.addEventListener('DOMContentLoaded',showData);
 
-function grafica (pers) {
-    console.log(pers)
-    pers.forEach(p => {
-        const {resulImc , result } = p;
-        let accountant = 0;	
-        let delgadez, normal, sobrepeso, obesidad, obesidadExtrema;	
-  	 
-    if(result === 'delgadez' ){
-        delgadez = accountant++;
-    } else if(result === 'normal'){
-       normal = accountant++;
-    } else if(result === 'sobrepeso') {
-        sobrepeso = accountant++;
-    } else if(result === 'obesidad') {
-        obesidad = accountant++;
-    } else if(result === 'obesidad extrema o de alto riesgo') {
-        obesidadExtrema = accountant++;
-    }
+function grafica (item) {
+   
+    let delgadez = 0;     
+    let normal = 0;
+    let sobrepeso = 0; 
+    let obesidad = 0;
+    let obesidadExtrema = 0;
+    let resultcount = persons.filter(item => {
+        const {result} = item; 
+		if(result == 'delgadez') return delgadez = delgadez + 1; 
+        if (result == 'sobrepeso') return  sobrepeso = sobrepeso + 1;
+        if (result == 'normal') return normal = normal + 1;
+        if (result == 'obesidad') return obesidad = obesidad + 1;
+        if (result == 'obesidad extrema o de alto riesgo') return obesidadExtrema = obesidadExtrema + 1;
+	});
+    
+    let total = delgadez + sobrepeso +  normal  + obesidad + obesidadExtrema;
+   
+    let porcentDelgadez = `${(delgadez * 100 / total).toFixed(2)}`;
+    let porcentSobrepeso = `${(sobrepeso * 100 / total).toFixed(2)}`;
+    let porcentNormal = `${(normal  * 100 / total).toFixed(2)}`;
+    let porcentObesidad = `${(obesidad  * 100 / total).toFixed(2)}`;
+    let porcentObesidadExtrema = `${(obesidadExtrema * 100 / total).toFixed(2)}`;
+    console.log(porcentDelgadez, porcentSobrepeso, porcentNormal, porcentObesidad, porcentObesidadExtrema);
 
     const chart = document.getElementById('myChart').getContext('2d');
-    const labels = [
-         'Delgadez', 
-         'Normal',
-         'Sobrepeso',
-         'Obesidad',
-         'Obesidad extrema o de alto riesgo'
-     ];
     let data = {
-        labels,
-        dataset: [{
-            label: 'Resultado: Indice de masa corporal',
-            data: [ delgadez, normal, sobrepeso, obesidad, obesidadExtrema],
+        labels: ['Delgadez', 'Normal','Sobrepeso','Obesidad','Obesidad extrema o de alto riesgo'],
+        datasets: [{
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
+                            'rgb(255, 99, 132)','rgb(54, 162, 235)','rgb(255, 215, 0)',
+                            'rgb(255, 165, 0)','rgb(220, 20, 60)','rgb(255, 159, 64)'
+                             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
+                        'rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 215, 0, 1)',
+                        'rgba(255, 165, 0, 1)','rgba(220, 20, 60 1)','rgba(255, 159, 64, 1)'
+                        ],
+            borderWidth: 1,
+            data: [porcentDelgadez,  porcentNormal, porcentSobrepeso, porcentObesidad, porcentObesidadExtrema]
         }]
-      };
-      //options block
-      const options = {
-        plugins: {
-          length: {
-              display: false
-          }
-        }
-      };
-      //config block
-      const config = {
+    };
+    let config = {
         type: 'bar',
         data, 
-        options
-      }
-      
-    //   //render block
-      const myChart = new Chart(chart, config);
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Indice de Masa Corporal"
+            }
+       }
+    }
     
-    });
+    const myChart = new Chart(chart, config);
+    
 }
