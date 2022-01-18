@@ -120,7 +120,7 @@ function grafica (item) {
     let sobrepeso = 0; 
     let obesidad = 0;
     let obesidadExtrema = 0;
-    let resultcount = persons.filter(item => {
+    let resultcount = persons.filter(item => { 
         const {result} = item; 
 		if(result == 'delgadez') return delgadez = delgadez + 1; 
         if (result == 'sobrepeso') return  sobrepeso = sobrepeso + 1;
