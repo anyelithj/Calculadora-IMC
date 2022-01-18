@@ -91,7 +91,7 @@ export let persons = [
         "age": "78",
         "gender": "femenino",
         "height": "1.23",
-        "resulIm": "32",
+        "resulIm": "33.05",
         "result": "obesidad",
         "weight": "50",
        },
