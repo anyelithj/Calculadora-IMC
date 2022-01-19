@@ -7,7 +7,7 @@ let gender = document.getElementById("gender");
 let tableBody = document.querySelector(".table__body");
 let button = document.getElementById("submit");
 let fragment = document.createDocumentFragment();
-// let persons = [];
+
 let result = "";
 let resulImc = "";
 let resultObs = "";
@@ -70,7 +70,7 @@ let calculateIMC = (item) => {
      resultObs = document.createElement('h1');
      resultObs.textContent = result;
      resulImc = document.createElement('h2');
-     resulImc.textContent = parseFloat(imc).toFixed(2) + "kg/m²";  
+     resulImc.textContent = parseFloat(imc).toFixed(2);  
      document.getElementById("result").appendChild(resultObs);
      document.getElementById("imc").appendChild(resulImc); 
      addPerson(age.value, gender.value, height.value, resulImc.textContent, resultObs.textContent, weight.value);
@@ -89,12 +89,12 @@ let saveData = (persons) => {
 let showData = () => {
     let pers = JSON.parse(localStorage.getItem("person"));
     showTable(pers);
-    // grafica(pers);
+    grafica(pers);
 }
 
 let showTable = ( persons) => {
     tableBody.innerHTML = "";
-    persons.forEach( item => {
+    persons.forEach(item => {
         const {age, height, weight, gender, resulImc,result } = item;
         let row = document.createElement('tr');
         tableBody.appendChild(row)
@@ -113,97 +113,59 @@ let showTable = ( persons) => {
 
 document.addEventListener('DOMContentLoaded',showData);
 
-// function grafica (pers) {
-//     console.log(pers)
-    // let count = (item) => {
-	// let resultdelgadez = persons.filter(item => {
-	// 	if(item.result == 'delgadez') {
-	// 		delgadez = delgadez + 1;
-	// 		return console.log(delgadez);
-	// 	} 
-	// });
-	// let resultsobrepeso = persons.filter(item => {
-	// 	if (item.result == 'sobrepeso') {
-	// 		sobrepeso = sobrepeso + 1;
-	// 		return console.log(sobrepeso);
-	// 	}
-	// });
-	// let resultsnormal = persons.filter(item => {
-	// 	if (item.result == 'normal') {
-	// 		normal = normal + 1;
-	// 		return console.log(normal);
-	// 	}
-	// });
-	// let resultsobesidad = persons.filter(item => {
-	// 	if (item.result == 'obesidad') {
-	// 		obesidad = obesidad + 1;
-	// 		return console.log(obesidad);
-	// 	}
-	// });
-	// let resultsobesidadExtrema = persons.filter(item => {
-	// 	if (item.result == 'obesidad extrema o de alto riesgo') {
-	// 		obesidadExtrema = obesidadExtrema + 1;
-	// 	  return console.log(obesidadExtrema);
-	// 	}
-	// });
+function grafica (item) {
+   
+    let delgadez = 0;     
+    let normal = 0;
+    let sobrepeso = 0; 
+    let obesidad = 0;
+    let obesidadExtrema = 0;
+    let resultcount = persons.filter(item => { 
+        const {result} = item; 
+		if(result == 'delgadez') return delgadez = delgadez + 1; 
+        if (result == 'sobrepeso') return  sobrepeso = sobrepeso + 1;
+        if (result == 'normal') return normal = normal + 1;
+        if (result == 'obesidad') return obesidad = obesidad + 1;
+        if (result == 'obesidad extrema o de alto riesgo') return obesidadExtrema = obesidadExtrema + 1;
+	});
+    
+    let total = delgadez + sobrepeso +  normal  + obesidad + obesidadExtrema;
+   
+    let porcentDelgadez = `${(delgadez * 100 / total).toFixed(2)}`;
+    let porcentSobrepeso = `${(sobrepeso * 100 / total).toFixed(2)}`;
+    let porcentNormal = `${(normal  * 100 / total).toFixed(2)}`;
+    let porcentObesidad = `${(obesidad  * 100 / total).toFixed(2)}`;
+    let porcentObesidadExtrema = `${(obesidadExtrema * 100 / total).toFixed(2)}`;
+    console.log(porcentDelgadez, porcentSobrepeso, porcentNormal, porcentObesidad, porcentObesidadExtrema);
 
-
-
-    // let total = resultdelgadez + resultsobrepeso +  resultsnormal + resultsobesidad + resultsobesidadExtrema;
-    // let porcdelgadez = `${resultdelgadez * 100 / total} %`;
-    // let porcresultsobrepeso = `${resultsobrepeso * 100 / total}%`;
-    // let porcnormal = `${resultsnormal * 100 / total}%`;
-    // let porobesidad = `${resultsobesidad * 100 / total}%`;
-    // let porobesidadExtrema = `${resultsobesidadExtrema * 100 / total}%`;
-//         const chart = document.getElementById('myChart').getContext('2d');
-//         const labels = [
-//             'Delgadez', 
-//             'Normal',
-//             'Sobrepeso',
-//             'Obesidad',
-//             'Obesidad extrema o de alto riesgo'
-//         ];
-//         let data = {
-//             labels,
-//             dataset: [{
-//                 label: 'Resultado: Indice de masa corporal',
-//                 data: [ delgadez, normal, sobrepeso, obesidad, obesidadExtrema],
-//                 backgroundColor: [
-//                     'rgba(255, 99, 132, 0.2)',
-//                     'rgba(54, 162, 235, 0.2)',
-//                     'rgba(255, 206, 86, 0.2)',
-//                     'rgba(75, 192, 192, 0.2)',
-//                     'rgba(153, 102, 255, 0.2)',
-//                     'rgba(255, 159, 64, 0.2)'
-//                 ],
-//                 borderColor: [
-//                     'rgba(255, 99, 132, 1)',
-//                     'rgba(54, 162, 235, 1)',
-//                     'rgba(255, 206, 86, 1)',
-//                     'rgba(75, 192, 192, 1)',
-//                     'rgba(153, 102, 255, 1)',
-//                     'rgba(255, 159, 64, 1)'
-//                 ],
-//                 borderWidth: 1
-//             }]
-//         };
-//         //options block
-//         const options = {
-//             plugins: {
-//             length: {
-//                 display: false
-//             }
-//             }
-//         };
-//         //config block
-//         const config = {
-//             type: 'bar',
-//             data, 
-//             options
-//         }
-        
-//         //   //render block
-//         const myChart = new Chart(chart, config);
-        
-//         });
-// }
+    const chart = document.getElementById('myChart').getContext('2d');
+    let data = {
+        labels: ['Delgadez', 'Normal','Sobrepeso','Obesidad','Obesidad extrema o de alto riesgo'],
+        datasets: [{
+            backgroundColor: [
+                            'rgb(255, 99, 132)','rgb(54, 162, 235)','rgb(255, 215, 0)',
+                            'rgb(255, 165, 0)','rgb(220, 20, 60)','rgb(255, 159, 64)'
+                             ],
+            borderColor: [
+                        'rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 215, 0, 1)',
+                        'rgba(255, 165, 0, 1)','rgba(220, 20, 60 1)','rgba(255, 159, 64, 1)'
+                        ],
+            borderWidth: 1,
+            data: [porcentDelgadez,  porcentNormal, porcentSobrepeso, porcentObesidad, porcentObesidadExtrema]
+        }]
+    };
+    let config = {
+        type: 'bar',
+        data, 
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Indice de Masa Corporal"
+            }
+       }
+    }
+    
+    const myChart = new Chart(chart, config);
+    
+}
